@@ -1,0 +1,58 @@
+# feedsync example: a synthetic supplier feed -> Rozetka XML + Prom.ua YML.
+source:
+  format: yml                              # yml | csv | json
+  path: testdata/generated/supplier.yml    # file path or http(s) URL
+  timeout: 30s
+
+# Supplier category id -> the category written into the price list.
+categories:
+  "10": {id: "1001", name: "Smartphones"}
+  "11": {id: "1002", name: "Laptops"}
+  "12": {id: "1003", name: "Tablets"}
+  "13": {id: "1004", name: "Headphones"}
+  "14": {id: "1005", name: "Monitors"}
+  "15": {id: "1006", name: "Keyboards"}
+  "16": {id: "1007", name: "Mice"}
+  "17": {id: "1008", name: "Routers"}
+  "18": {id: "1009", name: "Cameras"}
+  "19": {id: "1010", name: "Smartwatches"}
+  "20": {id: "1011", name: "Speakers"}
+  "21": {id: "1012", name: "Chargers"}
+
+# Supplier currency -> UAH. A fixed demo rate; use your own source in production.
+currency_rates:
+  USD: 41.5
+
+# First matching rule wins; otherwise the default applies.
+markup:
+  default: {type: percent, value: 12}
+  rules:
+    - {price_to: 500, type: fixed, value: 40}            # cheap items: +40 UAH
+    - {category: "10", type: percent, value: 8}          # smartphones: +8%
+    - {category: "11", price_from: 20000, type: percent, value: 6}
+  round_up_to: 1                                         # whole UAH
+
+filter:
+  drop_zero_stock: true
+
+pictures:
+  force_https: true       # rewrite http:// picture URLs, Rozetka requires HTTPS
+
+ids:
+  prefix: s               # derived IDs for supplier IDs that are not letters+digits
+
+shop:
+  name: Demo Shop
+  company: Demo Shop LLC
+  url: https://shop.example.com
+
+targets:
+  rozetka: {out: out/rozetka.xml}
+  prom: {out: out/prom.xml}
+
+report: out/report.json
+
+# Optional: sync price and stock into an OpenCart-style product table.
+opencart:
+  prefix: oc_
+  batch: 500

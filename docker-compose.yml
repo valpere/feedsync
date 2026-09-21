@@ -1,0 +1,14 @@
+# MySQL 8 with an OpenCart-style product table, for trying the price/stock sync.
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: demo
+      MYSQL_DATABASE: opencart
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-pdemo"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
