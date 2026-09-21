@@ -89,6 +89,22 @@ is what streaming should look like.
 `make test` runs the unit and integration tests with `-race` (the OpenCart
 sync is tested against SQLite; the numbers above were taken on real MySQL).
 
+## Connecting it to your shop
+
+- **Supplier feed:** set `source.path` to the supplier's file or URL and pick
+  `source.format` (`yml`, `csv`, `json`). A new format is one more reader in
+  `internal/source` that calls the same `Handler` for each product.
+- **Marketplaces:** each entry under `targets` writes one price list
+  (`rozetka`, `prom`); point `out` at the directory your web server exposes and
+  give the marketplace that URL.
+- **CMS:** put the MySQL connection string in `opencart.dsn` (or pass
+  `-opencart-dsn`), set `opencart.prefix`, and price/stock sync starts with the
+  next run; SQLite works the same way for a local copy.
+- **Schedule:** `feedsync convert -c config.yaml -every 30m` keeps the files
+  and the shop current; the report JSON shows every rejected offer and why.
+- **Your rules:** category map, currency rates, markup rules and picture rules
+  live in the config file.
+
 ## Layout
 
 ```
