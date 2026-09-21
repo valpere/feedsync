@@ -14,7 +14,7 @@ vet:
 lint: vet
 	gofmt -l .
 
-# 25,000-offer synthetic supplier feed (deterministic)
+# 25,000-offer sample supplier feed (deterministic)
 gen-sample: build
 	./bin/feedsync gen-sample -n 25000 -seed 1 -o testdata/generated/supplier.yml
 

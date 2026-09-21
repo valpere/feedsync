@@ -1,4 +1,4 @@
-// Package samplegen writes a deterministic synthetic supplier feed so the
+// Package samplegen writes a deterministic sample supplier feed so the
 // pipeline can be exercised and measured at any size without real data. A
 // small, fixed share of offers is deliberately broken (missing vendor,
 // Cyrillic picture URL, unmapped category, unknown currency, duplicate names,

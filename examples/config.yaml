@@ -1,4 +1,4 @@
-# feedsync example: a synthetic supplier feed -> Rozetka XML + Prom.ua YML.
+# feedsync example: a sample supplier feed -> Rozetka XML + Prom.ua YML.
 source:
   format: yml                              # yml | csv | json
   path: testdata/generated/supplier.yml    # file path or http(s) URL
